@@ -21,6 +21,8 @@ module ChinaCity
       #sort
       result.sort! {|a, b| a[1] <=> b[1]}
       result
+    rescue => e
+      []
     end
 
     # @options[:prepend_parent] 是否显示上级区域
@@ -37,15 +39,21 @@ module ChinaCity
       city_text = children[city_id][:text]
       children = children[city_id][:children]
       return "#{prepend_parent ? (province_text + city_text) : ''}#{children[id][:text]}"
+    rescue => e
+      ""
     end
 
     def province(code)
       match(code)[1].ljust(6, '0')
+    rescue => e
+      ""
     end
 
     def city(code)
       id_match = match(code)
       "#{id_match[1]}#{id_match[2]}".ljust(6, '0')
+    rescue => e
+      ""
     end
 
     private
